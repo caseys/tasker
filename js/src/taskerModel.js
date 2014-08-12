@@ -31,7 +31,6 @@ var taskerData = function() {
 		for (var i = 0; i < store.length; i++) {
 			existingKeyMap[store[i].key] = i;
 		}
-		console.log(existingKeyMap);
 		for (i = 0; i < URIStore.length; i++) {
 			var existing = existingKeyMap[URIStore[i].key];
 			if (typeof existing != 'undefined') {

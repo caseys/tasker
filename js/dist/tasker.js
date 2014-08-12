@@ -178,11 +178,8 @@ var tasker = function() {
 			}
 			if (numAll) {
 				shareLink = React.DOM.span({className: "shareLink", onClick: this.shareTasks}, "share");
-			} else {
-				if (this.state.filter !== 'trashed') {
-					console.log('adding the foo', this.state.filter);
-					this.props.taskData.addTask('', false);		
-				}		
+			} else if (this.state.filter !== 'trashed') {
+				this.props.taskData.addTask('', false);		
 			}
 
 			var cx = React.addons.classSet;
@@ -264,7 +261,6 @@ var taskerData = function() {
 		for (var i = 0; i < store.length; i++) {
 			existingKeyMap[store[i].key] = i;
 		}
-		console.log(existingKeyMap);
 		for (i = 0; i < URIStore.length; i++) {
 			var existing = existingKeyMap[URIStore[i].key];
 			if (typeof existing != 'undefined') {

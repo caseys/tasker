@@ -3,7 +3,7 @@
 var tasker = function() {
 
 	//view to represent each task
-	var TaskView = this.TaskView = React.createClass({
+	var TaskView = this.TaskView = React.createClass({displayName: 'TaskView',
 		getInitialState: function () {
 			return {
 				text: this.props.task.text,
@@ -95,28 +95,28 @@ var tasker = function() {
 			});			
 
 			return (
-				<div className={classes} onDoubleClick={this.goEditState}>
-					<input type="checkbox" ref="taskCheck" className="taskCheck"
-						checked={this.props.task.checked}
-						onChange={this.setChecked}
-					/>
-					<span className="taskText">{task.text}</span>
-					<input type="text" ref="taskInput" className="taskInput" autofocus="true" placeholder="enter task text"
-						value={this.state.text}
-						onBlur={this.handleBlur}
-						onChange={this.handleChange}
-						onKeyDown={this.handleKeyDown}
-					/>
-					<input type="button" ref="taskTrash" className="taskTrash"
-						onClick={this.setTrashed}
-					/>
-				</div>
+				React.DOM.div({className: classes, onDoubleClick: this.goEditState}, 
+					React.DOM.input({type: "checkbox", ref: "taskCheck", className: "taskCheck", 
+						checked: this.props.task.checked, 
+						onChange: this.setChecked}
+					), 
+					React.DOM.span({className: "taskText"}, task.text), 
+					React.DOM.input({type: "text", ref: "taskInput", className: "taskInput", autofocus: "true", placeholder: "enter task text", 
+						value: this.state.text, 
+						onBlur: this.handleBlur, 
+						onChange: this.handleChange, 
+						onKeyDown: this.handleKeyDown}
+					), 
+					React.DOM.input({type: "button", ref: "taskTrash", className: "taskTrash", 
+						onClick: this.setTrashed}
+					)
+				)
 			);
 		}
 	});
 
 	//view containing task list and related interface
-	var TaskerView = this.TaskerView = React.createClass({
+	var TaskerView = this.TaskerView = React.createClass({displayName: 'TaskerView',
 		getInitialState: function() {
 			return {
 				filter: 'all'
@@ -164,7 +164,7 @@ var tasker = function() {
 		render: function() {
 			var taskList = this.props.taskData.tasks.map(function (task) {
 				return (
-					<TaskView key={task.id} task={task} editTask={this.handleEditTask}/>
+					TaskView({key: task.id, task: task, editTask: this.handleEditTask})
 				);
 			}, this);
 
@@ -174,10 +174,10 @@ var tasker = function() {
 
 			var shareLink, trashFilterLink = null; //for jshint
 			if (numTrashed) {
-				trashFilterLink = <span className="filterButton trash" onClick={this.setTrashedFilter}>trash ({numTrashed})</span>;
+				trashFilterLink = React.DOM.span({className: "filterButton trash", onClick: this.setTrashedFilter}, "trash (", numTrashed, ")");
 			}
 			if (numAll) {
-				shareLink = <span className="shareLink" onClick={this.shareTasks}>share</span>;
+				shareLink = React.DOM.span({className: "shareLink", onClick: this.shareTasks}, "share");
 			} else if (this.state.filter !== 'trashed') {
 				this.props.taskData.addTask('', false);		
 			}
@@ -191,27 +191,27 @@ var tasker = function() {
 			});
 
 			return(
-				<div className={classes}>
-					<div className="header">
-						<button className="taskAdd"
-							onClick={this.handleNewTask}
-						>+</button>
-						<button className="emptyTrash"
-							onClick={this.emptyTrash}
-						>empty trash</button>
-						<span>tasks</span>
-					</div>
-					<div className="taskList">
-						{taskList}
-					</div>
-					<div className="taskFilter">
-						{shareLink}
-						<label>showing: </label>
-						<span className="filterButton all" onClick={this.setAllFilter}>all ({numAll})</span>
-						<span className="filterButton active" onClick={this.setActiveFilter}>active ({numActive})</span>
-						{trashFilterLink}
-					</div>
-				</div>
+				React.DOM.div({className: classes}, 
+					React.DOM.div({className: "header"}, 
+						React.DOM.button({className: "taskAdd", 
+							onClick: this.handleNewTask
+						}, "+"), 
+						React.DOM.button({className: "emptyTrash", 
+							onClick: this.emptyTrash
+						}, "empty trash"), 
+						React.DOM.span(null, "tasks")
+					), 
+					React.DOM.div({className: "taskList"}, 
+						taskList
+					), 
+					React.DOM.div({className: "taskFilter"}, 
+						shareLink, 
+						React.DOM.label(null, "showing: "), 
+						React.DOM.span({className: "filterButton all", onClick: this.setAllFilter}, "all (", numAll, ")"), 
+						React.DOM.span({className: "filterButton active", onClick: this.setActiveFilter}, "active (", numActive, ")"), 
+						trashFilterLink
+					)
+				)
 			);
 		}
 	});
@@ -225,6 +225,6 @@ tasker.prototype.setData = function(newData) {
 tasker.prototype.render = function() {
 	var TaskerView = this.TaskerView;
 	React.renderComponent(
-		<TaskerView taskData={this.data}/>, document.body
+		TaskerView({taskData: this.data}), document.body
 	);
 };
