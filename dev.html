@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv='Content-type' content='text/html; charset=utf-8'>
+		<link rel="stylesheet" href="asset/main.css" />
+		<title>Tasker</title>
+	</head>
+	<body>
+		<script src="lib/react-with-addons.js"></script>
+		<script src="lib/JSXTransformer.js"></script>
+		<script type="text/javascript" src="js/src/taskerModel.js"></script>
+		<script type="text/jsx" src="js/src/tasker.jsx"></script>
+		<script type="text/javascript">
+			// instanciate app view, data, and bind data changes to render method
+			setTimeout(function() {
+				var Tasker = new tasker();
+				var TaskerData = new taskerData();	
+				TaskerData.addListener(function() {
+					Tasker.render();
+				});
+				Tasker.setData(TaskerData);
+				Tasker.render();
+			},100);
+		</script>	
+	</body>
+</html>

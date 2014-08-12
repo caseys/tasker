@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv='Content-type' content='text/html; charset=utf-8'>
+		<link rel="stylesheet" href="asset/main.css" />
+		<title>Tasker</title>
+	</head>
+	<body>
+		<script src="lib/react-with-addons.min.js"></script>
+		<script src="js/dist/tasker.min.js"></script>
+		<script type="text/javascript">
+			var Tasker = new tasker();
+			var TaskerData = new taskerData();	
+			TaskerData.addListener(function() {
+				Tasker.render();
+			});
+			Tasker.setData(TaskerData);
+			Tasker.render();
+		</script>
+	</body>
+</html>

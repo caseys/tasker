@@ -1,0 +1,261 @@
+* {
+	margin: 0;
+	padding: 0;
+	outline: 0;
+	border: none;
+	font-family:sans-serif;
+	font-size:14px;
+}
+
+@media (min-width: 1024px) {
+	* {
+		font-size:18px;
+	}
+}
+@media (min-width: 1280px) {
+	* {
+		font-size:24px;
+	}
+	.taskCheck {
+		width: 40px;
+		height:40px;
+	}	
+}
+@media (min-width: 1600px) {
+	* {
+		font-size:36px;
+	}
+	.taskCheck {
+		width: 64px;
+		height:64px;
+	}
+}
+
+.taskerApp {
+	margin: 12px auto;
+	padding-bottom: 5px;
+	min-width: 320px;
+	max-width: 1280px;
+	width: 75%;
+	box-shadow: 0px 1px 10px rgba(0,0,0,0.5);
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;	
+	background:#eee linear-gradient(top, #F2F2F2 38%, #E8E8E8 85%);
+	background:#eee -webkit-linear-gradient(top, #F2F2F2 38%, #E8E8E8 85%);
+	background:#eee -moz-linear-gradient(top, #F2F2F2 38%, #E8E8E8 85%);    
+}
+
+.taskerApp .header {
+	position: relative;
+	width: 98%;
+	padding: 1%;
+}
+
+.task {
+	position: relative;
+	width: 98%;
+	min-height: 32px;
+	border: 1px solid #eee;
+	background-color: #eee;
+	margin: 1%;
+	border-radius: 3px;
+	transition: all 0.4s ease-out;
+	-webkit-transition: all 0.4s ease-out;
+	-moz-transition: all 0.4s ease-out;
+	-o-transition: all 0.4s ease-out;
+	-ms-transition: all 0.4s ease-out;
+	background:#DADAD9 linear-gradient(top, #E8E8E8 38%, #D1D1D1 85%);
+	background:#DADAD9 -webkit-linear-gradient(top, #E8E8E8 38%, #D1D1D1 85%);
+	background:#DADAD9 -moz-linear-gradient(top, #E8E8E8 38%, #D1D1D1 85%);
+
+}
+
+.task.trashed {
+	display: none;
+}
+
+.taskInput {
+	display: inline-block;	
+	vertical-align: middle;	
+	width: 86%;
+	padding: 1%;
+	border-radius: 3px;
+	background: transparent;
+
+}
+
+.taskText {
+	display: inline-block;
+	vertical-align: middle;	
+	width: 84%;
+	padding: 1%;
+	color: #666;
+}
+.taskText:hover {
+	color: #000;
+}
+
+.taskCheck {
+	display: inline-block;	
+	vertical-align: middle;	
+	width: 20px;
+	height:20px;
+	margin: 1%;
+	opacity: 0.5;
+	cursor: pointer;	
+}
+.taskCheck:hover,
+.filterTrashed .taskTrash:hover {
+	opacity: 1;
+}
+
+.taskAdd {
+	position: absolute;
+	right: 2%;
+	top: -1%;
+	font-size: 28px;
+	vertical-align: middle;	
+	width: 4%;
+	height: 28px;
+	background: none;
+	opacity: 0.25;	
+	cursor: pointer;	
+}
+
+.taskTrash {
+	position: absolute;
+	display: none;
+	vertical-align: middle;	
+	max-width: 4%;
+	right: 0;
+	width: 20px;
+	height: 20px;
+	margin: 1%;
+	background: url(../asset/trash.svg) right center transparent;
+	background-color: none;
+	background-size: contain;
+	background-repeat: no-repeat;
+	opacity:0.25;
+	cursor: pointer;	
+}
+
+.filterTrashed .taskTrash {
+	background: url(../asset/recycle.svg) center right transparent;
+	background-size: contain;	
+}
+
+.emptyTrash,
+.shareLink {
+	display: inline-block;	
+	position: absolute;
+	right: 2%;
+	vertical-align: middle;	
+	height: px;
+	background: none;
+	opacity: 0.5;	
+	cursor: pointer;
+}
+.emptyTrash {
+	display: none;
+}
+
+
+.filterTrashed .taskAdd,
+.filterTrashed .shareLink {
+	display: none;	
+}
+.filterTrashed .emptyTrash {
+	display: inline-block;	
+}
+.filterTrashed .emptyTrash:hover {
+	opacity: 1;	
+}
+
+.taskTrashe:hover,
+.taskAdd:hover {
+	opacity:0.5;
+}
+.taskTrash:active,
+.taskAdd:active {
+	opacity: 1;
+}
+
+.task:hover .taskTrash {
+	display: inline-block;
+}
+
+.task.edit {
+	border: 1px solid #ee0000;
+	background-color: #eee;
+	background:#eee linear-gradient(top, #F2F2F2 38%, #E8E8E8 85%);
+	background:#eee -webkit-linear-gradient(top, #F2F2F2 38%, #E8E8E8 85%);
+	background:#eee -moz-linear-gradient(top, #F2F2F2 38%, #E8E8E8 85%);
+}
+.task .taskInput {
+	display: none;
+}
+.task.edit .taskText {
+	display: none;
+}
+.task.edit .taskInput,
+.task.edit .taskRemove {
+	display: inline-block;
+}
+
+.taskFilter {
+	position: relative;
+	width: 98%;
+	padding: 0 1%;
+}
+.taskFilter .filterButton {
+	display: inline-block;
+	margin: 2px 10px;
+	cursor: pointer;
+	opacity: 0.33;
+}
+.taskFilter label {
+	opacity: 0.25;	
+}
+.taskFilter span:hover {
+	opacity: 1;
+}
+
+.filterAll .taskFilter span.all,
+.filterActive .taskFilter span.active,
+.filterTrashed .taskFilter span.trash {
+	opacity: 1;
+}
+
+.filterActive .task,
+.filterActive .task.trashed,
+.filterActive .task.trashed.active {
+	display: none;
+}
+.filterActive .task.active {
+	display: block;
+}
+
+.filterAll .task.trashed,
+.filterTrashed .task {
+	display: none;
+}
+
+.filterTrashed .task.trashed {
+	display: block;
+	background-color: #ffeeee;
+	background:#ffeeee linear-gradient(top, #ffeeee 38%, #eedddd 85%);
+	background:#ffeeee -webkit-linear-gradient(top, #ffeeee 38%, #eedddd 85%);
+	background:#ffeeee -moz-linear-gradient(top, #ffeeee 38%, #eedddd 85%);
+
+}
+.filterTrashed .task.trashed .taskTrash {
+	display: inline-block;
+}
+
+
+
+
