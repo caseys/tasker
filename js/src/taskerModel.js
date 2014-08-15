@@ -18,7 +18,7 @@ var taskerData = function() {
 	var URIStore;
 	try {
 		URIStore = JSON.parse(
-			decodeURIComponent(String(window.location.hash).replace('#','')) || false
+			decodeURIComponent(String(window.location.hash).replace(/^#+/,'')) || false
 		);
 		window.location.hash = '';
 	} catch(e) {
@@ -43,7 +43,32 @@ var taskerData = function() {
 		store = URIStore;
 	}
 
-	this.tasks = store || [];
+	this.tasks = store || [
+		{
+			id: 1,
+			text: 'Climb Mount Fuji',
+			checked: false,
+			trashed: false
+		},
+		{
+			id: 2,
+			text: 'Reschedule beer committee meeting',
+			checked: false,
+			trashed: false
+		},
+		{
+			id: 3,
+			text: 'Get almond milk on the way home',
+			checked: true,
+			trashed: false
+		},
+		{
+			id: 4,
+			text: 'Create a task list app',
+			checked: true,
+			trashed: true
+		}
+	];
 };
 
 taskerData.prototype.addTask = function(taskText, render) {

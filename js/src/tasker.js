@@ -2,6 +2,9 @@
 
 var tasker = function() {
 
+	var doubleTouchStartTimestamp = 0;
+	var hasTouch = 'ontouchstart' in document.documentElement;
+
 	//view to represent each task
 	var TaskView = this.TaskView = React.createClass({displayName: 'TaskView',
 		getInitialState: function () {
@@ -13,10 +16,12 @@ var tasker = function() {
 		},
 
 		componentDidMount: function() {
-			var task = this;
-			setTimeout(function() {			
-				task.setFocus();
-			}, 20);
+			if (this.state.editing === true) {
+				var task = this;
+				setTimeout(function() {			
+					task.setFocus();
+				}, 50);
+			}
 		},
 
 		setFocus: function() {
@@ -69,7 +74,8 @@ var tasker = function() {
 				this.setState({text: this.props.task.text});
 				this.goReadState();
 			} else if (event.which === 13 /* enter */) {
-				this.goReadState();
+				var node = this.refs.taskInput.getDOMNode();
+				node.blur();
 			} 
 		},
 
@@ -78,9 +84,22 @@ var tasker = function() {
 		},
 		
 		handleBlur: function(event) {
-			if (this.state.editing) {
-				this.goReadState();
+			this.goReadState();
+		},
+
+		handleTouch: function(event) {
+			var now = +(new Date());
+			if (doubleTouchStartTimestamp + 500 > now) {
+				event.preventDefault();
+				this.goEditState();
 			}
+			doubleTouchStartTimestamp = now;
+		},
+
+		handleCheckTouch: function(event) {
+			event.preventDefault();
+			var node = this.refs.taskCheck.getDOMNode();
+			node.checked = !node.checked;
 		},
 
 		render: function () {
@@ -94,11 +113,19 @@ var tasker = function() {
 				'trashed': this.state.trashed
 			});			
 
+			var deleteButtonClass; //for jslint
+			if (hasTouch) {
+				deleteButtonClass = "taskTrash taskTrashTouch";
+			} else {
+				deleteButtonClass = "taskTrash";				
+			}
+
 			return (
-				React.DOM.div({className: classes, onDoubleClick: this.goEditState}, 
+				React.DOM.div({className: classes, onTouchStart: this.handleTouch, onDoubleClick: this.goEditState}, 
 					React.DOM.input({type: "checkbox", ref: "taskCheck", className: "taskCheck", 
 						checked: this.props.task.checked, 
-						onChange: this.setChecked}
+						onChange: this.setChecked, 
+						onTouchStart: this.handleCheckTouch}						
 					), 
 					React.DOM.span({className: "taskText"}, task.text), 
 					React.DOM.input({type: "text", ref: "taskInput", className: "taskInput", autofocus: "true", placeholder: "enter task text", 
@@ -107,9 +134,9 @@ var tasker = function() {
 						onChange: this.handleChange, 
 						onKeyDown: this.handleKeyDown}
 					), 
-					React.DOM.input({type: "button", ref: "taskTrash", className: "taskTrash", 
+					React.DOM.input({type: "button", ref: "taskTrash", className: deleteButtonClass, 
 						onClick: this.setTrashed}
-					)
+					)		
 				)
 			);
 		}
@@ -153,7 +180,7 @@ var tasker = function() {
 			prompt("Share this URL", url);
 		},
 
-		handleNewTask: function() {
+		handleNewTask: function(event) {
 			this.props.taskData.addTask('');
 		},
 
@@ -162,6 +189,8 @@ var tasker = function() {
 		},
 
 		render: function() {
+			React.initializeTouchEvents(true);
+
 			var taskList = this.props.taskData.tasks.map(function (task) {
 				return (
 					TaskView({key: task.id, task: task, editTask: this.handleEditTask})
