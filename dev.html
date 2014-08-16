@@ -14,6 +14,7 @@
 		<script type="text/jsx" src="js/src/tasker.jsx"></script>
 		<script type="text/javascript">
 			// instanciate app view, data, and bind data changes to render method
+			// in browser jsx transform needs this timeout sadly.
 			setTimeout(function() {
 				var Tasker = new tasker();
 				var TaskerData = new taskerData();	
@@ -22,7 +23,7 @@
 				});
 				Tasker.setData(TaskerData);
 				Tasker.render();
-			},100);
+			},250);
 		</script>	
 	</body>
 </html>
